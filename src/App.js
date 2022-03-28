@@ -1,23 +1,23 @@
-import logo from './logo.svg';
+import React, {useState, useEffect} from 'react';
 import './App.css';
 
 function App() {
+  const [pokemon_list, setPokemon_list] = useState([]);
+
+  // Technically as of 1/2022 there are 905 pokemon with the release of Sword and Shield.
+  useEffect(() => {
+    fetch("https://pokeapi.co/api/v2/pokemon/?limit=807")
+      .then(response => response.json())
+      .then(response => setPokemon_list(response.results))
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ul>
+        {pokemon_list.length > 0 && pokemon_list.map((pokemon, index) => {
+          return (<li key={index}>{pokemon.name}</li>)
+        })}
+      </ul>
     </div>
   );
 }
