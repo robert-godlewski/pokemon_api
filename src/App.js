@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import axios from 'axios';
 import './App.css';
 
 function App() {
@@ -6,9 +7,12 @@ function App() {
 
   // Technically as of 1/2022 there are 905 pokemon with the release of Sword and Shield.
   useEffect(() => {
-    fetch("https://pokeapi.co/api/v2/pokemon/?limit=807")
-      .then(response => response.json())
-      .then(response => setPokemon_list(response.results))
+    axios.get("https://pokeapi.co/api/v2/pokemon/?limit=807")
+      .then((response) => {
+        console.log(response.data.results)
+        setPokemon_list(response.data.results)
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   return (
